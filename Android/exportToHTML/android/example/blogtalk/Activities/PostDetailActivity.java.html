@@ -1,0 +1,233 @@
+<html>
+<head>
+<title>PostDetailActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+PostDetailActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">android.example.blogtalk.Activities</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AlertDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.LinearLayoutManager</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.DialogInterface</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Adapter.CommentAdapter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Models.Comment</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.Window</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.WindowManager</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.bumptech.glide.Glide</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.ads.AdRequest</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.ads.AdView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.ads.MobileAds</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.ads.initialization.InitializationStatus</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.ads.initialization.OnInitializationCompleteListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnFailureListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnSuccessListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseUser</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.text.DateFormat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.text.SimpleDateFormat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Calendar</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Date</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Locale</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">de.hdodenhof.circleimageview.CircleImageView</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">PostDetailActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+    <span class="s0">private </span><span class="s1">ImageView postImage</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">CircleImageView commentImage</span><span class="s0">,</span><span class="s1">postUserImage</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">TextView textPostDesc</span><span class="s0">, </span><span class="s1">textPostDate</span><span class="s0">, </span><span class="s1">textPostTitle</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">EditText commentEdit</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Button addCommentBtn</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">String PostKey</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">AdView adView</span><span class="s0">;</span>
+
+    <span class="s1">FirebaseAuth auth</span><span class="s0">;</span>
+    <span class="s1">FirebaseUser user</span><span class="s0">;</span>
+    <span class="s1">FirebaseDatabase firebaseDatabase</span><span class="s0">;</span>
+
+    <span class="s1">RecyclerView RvComment</span><span class="s0">;</span>
+    <span class="s1">CommentAdapter commentAdapter</span><span class="s0">;</span>
+    <span class="s1">List&lt;Comment&gt; listComment</span><span class="s0">;</span>
+    <span class="s0">static  </span><span class="s1">String COMMENT_KEY = </span><span class="s2">&quot;Comment&quot;</span><span class="s0">;</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_post_detail)</span><span class="s0">;</span>
+
+        <span class="s3">// status bar hide</span>
+        <span class="s1">Window window = getWindow()</span><span class="s0">;</span>
+        <span class="s1">window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS</span><span class="s0">, </span><span class="s1">WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)</span><span class="s0">;</span>
+        <span class="s1">getSupportActionBar().hide()</span><span class="s0">;</span>
+
+        <span class="s1">RvComment = findViewById(R.id.rv_comment)</span><span class="s0">;</span>
+        <span class="s1">postImage = findViewById(R.id.post_detail_image)</span><span class="s0">;</span>
+        <span class="s1">commentImage = findViewById(R.id.post_comment_image)</span><span class="s0">;</span>
+        <span class="s1">postUserImage = findViewById(R.id.post_user_image_detail)</span><span class="s0">;</span>
+
+        <span class="s1">textPostDesc = findViewById(R.id.post_description_detail)</span><span class="s0">;</span>
+        <span class="s1">textPostDate = findViewById(R.id.post_date_detail)</span><span class="s0">;</span>
+        <span class="s1">textPostTitle = findViewById(R.id.post_title_detail)</span><span class="s0">;</span>
+
+        <span class="s1">commentEdit = findViewById(R.id.post_comment_edit_text)</span><span class="s0">;</span>
+        <span class="s1">addCommentBtn = findViewById(R.id.post_submit_comment_btn)</span><span class="s0">;</span>
+        <span class="s1">adView = findViewById(R.id.ad_view)</span><span class="s0">;</span>
+
+        <span class="s1">auth = FirebaseAuth.getInstance()</span><span class="s0">;</span>
+        <span class="s1">user = auth.getCurrentUser()</span><span class="s0">;</span>
+        <span class="s1">firebaseDatabase = FirebaseDatabase.getInstance()</span><span class="s0">;</span>
+
+        <span class="s3">// AD REQUEST</span>
+        <span class="s1">MobileAds.initialize(</span><span class="s0">this, new </span><span class="s1">OnInitializationCompleteListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onInitializationComplete(InitializationStatus initializationStatus) {</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">AdRequest adRequest = </span><span class="s0">new </span><span class="s1">AdRequest.Builder()</span>
+                <span class="s1">.build()</span><span class="s0">;</span>
+        <span class="s1">adView.loadAd(adRequest)</span><span class="s0">;</span>
+
+        <span class="s3">// add Comment button click listener</span>
+        <span class="s1">addCommentBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+
+                <span class="s1">addCommentBtn.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                <span class="s1">DatabaseReference commentReference = firebaseDatabase.getReference(COMMENT_KEY).child(PostKey).push()</span><span class="s0">;</span>
+                <span class="s1">String comment_content = commentEdit.getText().toString()</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(comment_content.equals(</span><span class="s2">&quot;&quot;</span><span class="s1">)) {</span>
+                    <span class="s1">showMessage(</span><span class="s2">&quot;Enter valid comment&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">addCommentBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+
+                    <span class="s1">String uid = user.getUid()</span><span class="s0">;</span>
+                    <span class="s1">String uname = user.getDisplayName()</span><span class="s0">;</span>
+                    <span class="s1">String uimg = user.getPhotoUrl().toString()</span><span class="s0">;</span>
+                    <span class="s1">Comment comment = </span><span class="s0">new </span><span class="s1">Comment(comment_content</span><span class="s0">, </span><span class="s1">uid</span><span class="s0">, </span><span class="s1">uimg</span><span class="s0">, </span><span class="s1">uname)</span><span class="s0">;</span>
+                    <span class="s1">commentReference.setValue(comment).addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;Void&gt;() {</span>
+                        <span class="s1">@Override</span>
+                        <span class="s0">public void </span><span class="s1">onSuccess(Void aVoid) {</span>
+                            <span class="s1">showMessage(</span><span class="s2">&quot;comment added&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                            <span class="s1">commentEdit.setText(</span><span class="s2">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                            <span class="s1">addCommentBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">}).addOnFailureListener(</span><span class="s0">new </span><span class="s1">OnFailureListener() {</span>
+                        <span class="s1">@Override</span>
+                        <span class="s0">public void </span><span class="s1">onFailure(@NonNull Exception e) {</span>
+                            <span class="s1">showMessage(</span><span class="s2">&quot;Error occurred &quot; </span><span class="s1">+ e.getMessage())</span><span class="s0">;</span>
+                            <span class="s1">addCommentBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">})</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s3">// displaying image</span>
+        <span class="s1">String postImagetext = getIntent().getExtras().getString(</span><span class="s2">&quot;postImage&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Glide.with(</span><span class="s0">this</span><span class="s1">).load(postImagetext).into(postImage)</span><span class="s0">;</span>
+        <span class="s3">// displaying title</span>
+        <span class="s1">String postTitle = getIntent().getExtras().getString(</span><span class="s2">&quot;title&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">textPostTitle.setText(postTitle)</span><span class="s0">;</span>
+        <span class="s3">// displaying description</span>
+        <span class="s1">String postDesc = getIntent().getExtras().getString(</span><span class="s2">&quot;description&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">textPostDesc.setText(postDesc)</span><span class="s0">;</span>
+        <span class="s3">// displaying userImage</span>
+        <span class="s1">String userPostImage = getIntent().getExtras().getString(</span><span class="s2">&quot;userPhoto&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s0">if</span><span class="s1">(userPostImage != </span><span class="s0">null</span><span class="s1">){</span>
+            <span class="s1">Glide.with(</span><span class="s0">this</span><span class="s1">).load(userPostImage).into(postUserImage)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">else</span><span class="s1">{</span>
+            <span class="s1">Glide.with(</span><span class="s0">this</span><span class="s1">).load(R.drawable.userphoto).into(postUserImage)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s3">// displaying comment user image</span>
+
+        <span class="s0">if</span><span class="s1">(user.getPhotoUrl() != </span><span class="s0">null</span><span class="s1">){</span>
+            <span class="s1">Glide.with(</span><span class="s0">this</span><span class="s1">).load(user.getPhotoUrl()).into(commentImage)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">else</span><span class="s1">{</span>
+            <span class="s1">Glide.with(</span><span class="s0">this</span><span class="s1">).load(R.drawable.userphoto).into(commentImage)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s3">// ID</span>
+        <span class="s1">PostKey = getIntent().getExtras().getString(</span><span class="s2">&quot;postKey&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s3">//String date = timeStampStringConvert(getIntent().getExtras().getLong(&quot;postDate&quot;));</span>
+        <span class="s3">//textPostDate.setText(&quot;By || &quot;+user.getDisplayName());</span>
+
+        <span class="s3">// Initialize RecyclerView</span>
+        <span class="s1">iniRvComment()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">iniRvComment() {</span>
+
+        <span class="s1">RvComment.setLayoutManager(</span><span class="s0">new </span><span class="s1">LinearLayoutManager(</span><span class="s0">this</span><span class="s1">))</span><span class="s0">;</span>
+
+        <span class="s1">DatabaseReference commentRef = firebaseDatabase.getReference(COMMENT_KEY).child(PostKey)</span><span class="s0">;</span>
+        <span class="s1">commentRef.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                <span class="s1">listComment = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+                <span class="s0">for</span><span class="s1">(DataSnapshot snapshot1:snapshot.getChildren()){</span>
+                    <span class="s1">Comment comment = snapshot1.getValue(Comment.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">listComment.add(comment)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s1">commentAdapter = </span><span class="s0">new </span><span class="s1">CommentAdapter(getApplicationContext()</span><span class="s0">,</span><span class="s1">listComment)</span><span class="s0">;</span>
+                <span class="s1">RvComment.setAdapter(commentAdapter)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">showMessage(String message) {</span>
+        <span class="s1">Toast.makeText(</span><span class="s0">this, </span><span class="s1">message</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s3">/*private String timeStampStringConvert(long time){ 
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH); 
+        calendar.setTimeInMillis(time); 
+        String date = DateFormat.format(&quot;yyyy-MM-dd&quot;,calendar).toString(); 
+        return  date; 
+       }*/</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

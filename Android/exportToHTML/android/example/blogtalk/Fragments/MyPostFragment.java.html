@@ -1,0 +1,138 @@
+<html>
+<head>
+<title>MyPostFragment.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MyPostFragment.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">android.example.blogtalk.Fragments</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Adapter.PostAdapter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Models.Post</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.net.Uri</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.fragment.app.Fragment</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.ItemTouchHelper</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.LinearLayoutManager</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.MenuItem</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.example.blogtalk.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnSuccessListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseUser</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">MyPostFragment </span><span class="s0">extends </span><span class="s1">Fragment {</span>
+
+    <span class="s0">private static final </span><span class="s1">String ARG_PARAM1 = </span><span class="s2">&quot;param1&quot;</span><span class="s0">;</span>
+    <span class="s0">private static final </span><span class="s1">String ARG_PARAM2 = </span><span class="s2">&quot;param2&quot;</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">String mParam1</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">String mParam2</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">OnFragmentInteractionListener mlistener</span><span class="s0">;</span>
+
+    <span class="s1">RecyclerView postRecyclerView</span><span class="s0">;</span>
+    <span class="s1">PostAdapter postAdapter</span><span class="s0">;</span>
+    <span class="s1">FirebaseDatabase firebaseDatabase</span><span class="s0">;</span>
+    <span class="s1">DatabaseReference databaseReference</span><span class="s0">;</span>
+    <span class="s1">List&lt;Post&gt; postList</span><span class="s0">;</span>
+    <span class="s1">FirebaseAuth auth</span><span class="s0">;</span>
+    <span class="s1">FirebaseUser user</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">MyPostFragment() {</span>
+        <span class="s3">// Required empty public constructor</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static </span><span class="s1">HomeFragment newInstance(String param1</span><span class="s0">, </span><span class="s1">String param2) {</span>
+        <span class="s1">HomeFragment fragment = </span><span class="s0">new </span><span class="s1">HomeFragment()</span><span class="s0">;</span>
+        <span class="s1">Bundle args = </span><span class="s0">new </span><span class="s1">Bundle()</span><span class="s0">;</span>
+        <span class="s1">args.putString(ARG_PARAM1</span><span class="s0">, </span><span class="s1">param1)</span><span class="s0">;</span>
+        <span class="s1">args.putString(ARG_PARAM2</span><span class="s0">, </span><span class="s1">param2)</span><span class="s0">;</span>
+        <span class="s1">fragment.setArguments(args)</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">fragment</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s0">if </span><span class="s1">(getArguments() != </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s1">mParam1 = getArguments().getString(ARG_PARAM1)</span><span class="s0">;</span>
+            <span class="s1">mParam2 = getArguments().getString(ARG_PARAM2)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">View onCreateView(LayoutInflater inflater</span><span class="s0">, </span><span class="s1">ViewGroup container</span><span class="s0">,</span>
+                             <span class="s1">Bundle savedInstanceState) {</span>
+        <span class="s3">// Inflate the layout for this fragment</span>
+        <span class="s1">View fragmentView = inflater.inflate(R.layout.fragment_my_post</span><span class="s0">, </span><span class="s1">container</span><span class="s0">, false</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">postRecyclerView = fragmentView.findViewById(R.id.my_postView)</span><span class="s0">;</span>
+        <span class="s1">auth = FirebaseAuth.getInstance()</span><span class="s0">;</span>
+        <span class="s1">user = auth.getCurrentUser()</span><span class="s0">;</span>
+        <span class="s1">postRecyclerView.setLayoutManager(</span><span class="s0">new </span><span class="s1">LinearLayoutManager(getActivity()))</span><span class="s0">;</span>
+        <span class="s1">postRecyclerView.setHasFixedSize(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">firebaseDatabase = FirebaseDatabase.getInstance()</span><span class="s0">;</span>
+        <span class="s1">databaseReference = firebaseDatabase.getReference(</span><span class="s2">&quot;Separate&quot;</span><span class="s1">).child(user.getUid())</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">fragmentView</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onStart() {</span>
+        <span class="s0">super</span><span class="s1">.onStart()</span><span class="s0">;</span>
+
+        <span class="s1">databaseReference.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                <span class="s1">postList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+                <span class="s0">for</span><span class="s1">(DataSnapshot postsnap : snapshot.getChildren()){</span>
+                    <span class="s1">Post post = postsnap.getValue(Post.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">postList.add(post)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s1">postAdapter = </span><span class="s0">new </span><span class="s1">PostAdapter(getActivity()</span><span class="s0">,</span><span class="s1">postList)</span><span class="s0">;</span>
+                <span class="s1">postRecyclerView.setAdapter(postAdapter)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public interface </span><span class="s1">OnFragmentInteractionListener {</span>
+
+        <span class="s0">void </span><span class="s1">onFragmentInteraction(Uri uri)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

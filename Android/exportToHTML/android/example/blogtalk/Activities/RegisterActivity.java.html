@@ -1,0 +1,290 @@
+<html>
+<head>
+<title>RegisterActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #808080;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+RegisterActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">android.example.blogtalk.Activities</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.annotation.Nullable</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.core.app.ActivityCompat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.core.content.ContextCompat</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.Manifest</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.pm.PackageManager</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.net.Uri</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Build</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ProgressBar</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnCompleteListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnSuccessListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.Task</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.AuthResult</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseUser</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.UserProfileChangeRequest</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.storage.FirebaseStorage</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.storage.StorageReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.storage.UploadTask</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.rey.material.widget.CheckBox</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">de.hdodenhof.circleimageview.CircleImageView</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">RegisterActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+    <span class="s1">CircleImageView userImage</span><span class="s0">;</span>
+    <span class="s0">static int </span><span class="s1">PReqCode = </span><span class="s2">1</span><span class="s0">;</span>
+    <span class="s0">static int </span><span class="s1">REQUESTCODE = </span><span class="s2">1</span><span class="s0">;</span>
+    <span class="s1">Uri pickedImageUri</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">EditText userEmail</span><span class="s0">, </span><span class="s1">userPassword</span><span class="s0">,</span><span class="s1">userConfirmPassword</span><span class="s0">, </span><span class="s1">userName</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">ProgressBar loadingBar</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Button registerBtn</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">TextView loginTextActivity</span><span class="s0">;</span>
+    <span class="s1">CheckBox termsCheckBox</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">FirebaseAuth auth</span><span class="s0">;</span>
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_register)</span><span class="s0">;</span>
+
+        <span class="s3">// Initializing views</span>
+        <span class="s1">userImage = findViewById(R.id.register_user_image)</span><span class="s0">;</span>
+        <span class="s1">userEmail = findViewById(R.id.register_email_edit_text)</span><span class="s0">;</span>
+        <span class="s1">userPassword = findViewById(R.id.register_password_edit_text)</span><span class="s0">;</span>
+        <span class="s1">userConfirmPassword = findViewById(R.id.register_confirm_password_edit_text)</span><span class="s0">;</span>
+        <span class="s1">userName = findViewById(R.id.register_name_edit_text)</span><span class="s0">;</span>
+        <span class="s1">loadingBar = findViewById(R.id.register_progressBar)</span><span class="s0">;</span>
+        <span class="s1">registerBtn = findViewById(R.id.register_btn)</span><span class="s0">;</span>
+        <span class="s1">loginTextActivity = findViewById(R.id.login_here_text)</span><span class="s0">;</span>
+        <span class="s1">termsCheckBox = findViewById(R.id.terms_and_condition)</span><span class="s0">;</span>
+
+        <span class="s1">auth = FirebaseAuth.getInstance()</span><span class="s0">;</span>
+
+        <span class="s1">userImage.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+
+                <span class="s0">if</span><span class="s1">(Build.VERSION.SDK_INT &gt;= </span><span class="s2">22</span><span class="s1">){</span>
+                    <span class="s1">checkAndRequestForPermission()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else</span><span class="s1">{</span>
+                    <span class="s1">openGallery()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">loginTextActivity.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">Intent i = </span><span class="s0">new </span><span class="s1">Intent(RegisterActivity.</span><span class="s0">this,</span><span class="s1">LoginActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">startActivity(i)</span><span class="s0">;</span>
+                <span class="s1">finish()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">termsCheckBox.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">showMessage(</span><span class="s4">&quot;Long press to read&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">termsCheckBox.setOnLongClickListener(</span><span class="s0">new </span><span class="s1">View.OnLongClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public boolean </span><span class="s1">onLongClick(View v) {</span>
+                <span class="s1">Intent i = </span><span class="s0">new </span><span class="s1">Intent(RegisterActivity.</span><span class="s0">this,</span><span class="s1">TermsActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">startActivity(i)</span><span class="s0">;</span>
+                <span class="s0">return false;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">registerBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">registerBtn.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                <span class="s1">loadingBar.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+
+                <span class="s0">final </span><span class="s1">String email = userEmail.getText().toString()</span><span class="s0">;</span>
+                <span class="s0">final </span><span class="s1">String password = userPassword.getText().toString()</span><span class="s0">;</span>
+                <span class="s0">final </span><span class="s1">String confirmPassword = userConfirmPassword.getText().toString()</span><span class="s0">;</span>
+                <span class="s0">final </span><span class="s1">String name = userName.getText().toString()</span><span class="s0">;</span>
+
+                <span class="s0">if</span><span class="s1">(email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || name.isEmpty() || !password.equals(confirmPassword) || pickedImageUri == </span><span class="s0">null</span><span class="s1">){</span>
+
+                    <span class="s3">// fields empty or incorrect;</span>
+                    <span class="s1">showMessage(</span><span class="s4">&quot;Please verify all fields, if not, add image&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">registerBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                    <span class="s1">loadingBar.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else if </span><span class="s1">(!termsCheckBox.isChecked()){</span>
+                    <span class="s1">showMessage(</span><span class="s4">&quot;Please read terms &amp; conditions.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">registerBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                    <span class="s1">loadingBar.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else</span><span class="s1">{</span>
+                    <span class="s3">// everything is ok and all fields are filled</span>
+                    <span class="s1">CreateUserAccount(email</span><span class="s0">,</span><span class="s1">name</span><span class="s0">,</span><span class="s1">password)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">CreateUserAccount(</span><span class="s0">final </span><span class="s1">String email</span><span class="s0">,final </span><span class="s1">String name</span><span class="s0">,final </span><span class="s1">String password) {</span>
+        <span class="s1">auth.createUserWithEmailAndPassword(email</span><span class="s0">,</span><span class="s1">password)</span>
+                <span class="s1">.addOnCompleteListener(</span><span class="s0">this, new </span><span class="s1">OnCompleteListener&lt;AuthResult&gt;() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onComplete(@NonNull Task&lt;AuthResult&gt; task) {</span>
+                        <span class="s0">if</span><span class="s1">(task.isSuccessful()){</span>
+                            <span class="s3">// user account created</span>
+                            <span class="s1">showMessage(</span><span class="s4">&quot;Account created successfully!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                            <span class="s3">// after account created we update information i.e name, picture</span>
+                            <span class="s0">if</span><span class="s1">(pickedImageUri != </span><span class="s0">null</span><span class="s1">){</span>
+                                <span class="s1">updateUserInfo(name</span><span class="s0">,</span><span class="s1">pickedImageUri</span><span class="s0">,</span><span class="s1">auth.getCurrentUser())</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                            <span class="s0">else</span><span class="s1">{</span>
+                                <span class="s1">Toast.makeText(RegisterActivity.</span><span class="s0">this, </span><span class="s4">&quot;Add image&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                        <span class="s1">}</span>
+                        <span class="s0">else</span><span class="s1">{</span>
+                            <span class="s1">showMessage(</span><span class="s4">&quot;Error occured! &quot; </span><span class="s1">+ task.getException().getMessage())</span><span class="s0">;</span>
+                            <span class="s1">registerBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                            <span class="s1">loadingBar.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s3">// update user photo and name</span>
+    <span class="s0">private void </span><span class="s1">updateUserInfo(</span><span class="s0">final </span><span class="s1">String name</span><span class="s0">,final </span><span class="s1">Uri pickedImageUri</span><span class="s0">,final </span><span class="s1">FirebaseUser currentUser) {</span>
+
+        <span class="s3">//upload user image to firebase storage and get url</span>
+        <span class="s1">StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(</span><span class="s4">&quot;users_photos&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">final </span><span class="s1">StorageReference imageFilePath = storageReference.child(pickedImageUri.getLastPathSegment())</span><span class="s0">;</span>
+        <span class="s1">imageFilePath.putFile(pickedImageUri).addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;UploadTask.TaskSnapshot&gt;() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onSuccess(UploadTask.TaskSnapshot taskSnapshot) {</span>
+                <span class="s3">// image uploaded successfully</span>
+                <span class="s1">imageFilePath.getDownloadUrl().addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;Uri&gt;() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onSuccess(Uri uri) {</span>
+                        <span class="s3">// uri contain user image url</span>
+                        <span class="s1">UserProfileChangeRequest profileUpdate = </span><span class="s0">new </span><span class="s1">UserProfileChangeRequest.Builder()</span>
+                                <span class="s1">.setDisplayName(name)</span>
+                                <span class="s1">.setPhotoUri(uri)</span>
+                                <span class="s1">.build()</span><span class="s0">;</span>
+                        <span class="s1">currentUser.updateProfile(profileUpdate)</span>
+                                <span class="s1">.addOnCompleteListener(</span><span class="s0">new </span><span class="s1">OnCompleteListener&lt;Void&gt;() {</span>
+                                    <span class="s1">@Override</span>
+                                    <span class="s0">public void </span><span class="s1">onComplete(@NonNull Task&lt;Void&gt; task) {</span>
+                                        <span class="s0">if</span><span class="s1">(task.isSuccessful()){</span>
+                                            <span class="s3">// user info updated</span>
+                                            <span class="s1">showMessage(</span><span class="s4">&quot;Registration Complete&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                                            <span class="s1">updateUri()</span><span class="s0">;</span>
+                                        <span class="s1">}</span>
+                                    <span class="s1">}</span>
+                                <span class="s1">})</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">updateUserInfoWithoutImage(</span><span class="s0">final </span><span class="s1">String name</span><span class="s0">,final </span><span class="s1">FirebaseUser currentUser) {</span>
+
+        <span class="s3">//upload user image to firebase storage and get url</span>
+
+                        <span class="s1">UserProfileChangeRequest profileUpdate = </span><span class="s0">new </span><span class="s1">UserProfileChangeRequest.Builder()</span>
+                                <span class="s1">.setDisplayName(name)</span>
+                                <span class="s1">.build()</span><span class="s0">;</span>
+
+                        <span class="s1">currentUser.updateProfile(profileUpdate)</span>
+                                <span class="s1">.addOnCompleteListener(</span><span class="s0">new </span><span class="s1">OnCompleteListener&lt;Void&gt;() {</span>
+                                    <span class="s1">@Override</span>
+                                    <span class="s0">public void </span><span class="s1">onComplete(@NonNull Task&lt;Void&gt; task) {</span>
+                                        <span class="s0">if</span><span class="s1">(task.isSuccessful()){</span>
+                                            <span class="s3">// user info updated</span>
+                                            <span class="s1">showMessage(</span><span class="s4">&quot;Registration Complete&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                                            <span class="s1">updateUri()</span><span class="s0">;</span>
+                                        <span class="s1">}</span>
+                                    <span class="s1">}</span>
+                                <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">updateUri() {</span>
+        <span class="s1">Intent homeIntent = </span><span class="s0">new </span><span class="s1">Intent(RegisterActivity.</span><span class="s0">this,</span><span class="s1">Home.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">startActivity(homeIntent)</span><span class="s0">;</span>
+        <span class="s1">finish()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">showMessage(String message) {</span>
+        <span class="s1">Toast.makeText(</span><span class="s0">this, </span><span class="s1">message</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">openGallery() {</span>
+
+        <span class="s1">Intent galleryIntent = </span><span class="s0">new </span><span class="s1">Intent(Intent.ACTION_GET_CONTENT)</span><span class="s0">;</span>
+        <span class="s1">galleryIntent.setType(</span><span class="s4">&quot;image/*&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">startActivityForResult(galleryIntent</span><span class="s0">,</span><span class="s1">REQUESTCODE)</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">checkAndRequestForPermission() {</span>
+        <span class="s0">if</span><span class="s1">(ContextCompat.checkSelfPermission(RegisterActivity.</span><span class="s0">this, </span><span class="s1">Manifest.permission.READ_EXTERNAL_STORAGE)</span>
+        <span class="s1">!= PackageManager.PERMISSION_GRANTED){</span>
+            <span class="s0">if</span><span class="s1">(ActivityCompat.shouldShowRequestPermissionRationale(RegisterActivity.</span><span class="s0">this, </span><span class="s1">Manifest.permission.READ_EXTERNAL_STORAGE)){</span>
+                <span class="s1">Toast.makeText(</span><span class="s0">this, </span><span class="s4">&quot;Please accept for required permission&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">else</span><span class="s1">{</span>
+                <span class="s1">ActivityCompat.requestPermissions(RegisterActivity.</span><span class="s0">this,</span>
+                        <span class="s0">new </span><span class="s1">String[]{Manifest.permission.READ_EXTERNAL_STORAGE}</span><span class="s0">,</span>
+                        <span class="s1">PReqCode)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">else</span><span class="s1">{</span>
+            <span class="s1">openGallery()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onActivityResult(</span><span class="s0">int </span><span class="s1">requestCode</span><span class="s0">, int </span><span class="s1">resultCode</span><span class="s0">, </span><span class="s1">@Nullable Intent data) {</span>
+        <span class="s0">super</span><span class="s1">.onActivityResult(requestCode</span><span class="s0">, </span><span class="s1">resultCode</span><span class="s0">, </span><span class="s1">data)</span><span class="s0">;</span>
+
+        <span class="s0">if</span><span class="s1">(resultCode == RESULT_OK &amp;&amp; requestCode == REQUESTCODE &amp;&amp; data != </span><span class="s0">null</span><span class="s1">){</span>
+            <span class="s3">// the user has successfully picked an image</span>
+            <span class="s3">// we save its reference</span>
+            <span class="s1">pickedImageUri = data.getData()</span><span class="s0">;</span>
+            <span class="s1">userImage.setImageURI(pickedImageUri)</span><span class="s0">;</span>
+
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<html>
+<head>
+<title>LoginActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+LoginActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">android.example.blogtalk.Activities</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Fragments.ResetPasswordFragment</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.text.method.HideReturnsTransformationMethod</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.text.method.PasswordTransformationMethod</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.CompoundButton</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ProgressBar</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnCompleteListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.Task</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.AuthResult</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseUser</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.rey.material.widget.CheckBox</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">de.hdodenhof.circleimageview.CircleImageView</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">LoginActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+    <span class="s0">private </span><span class="s1">EditText userEmail</span><span class="s0">,</span><span class="s1">userPassword</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Button loginBtn</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">ProgressBar loadingBar</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">FirebaseAuth auth</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Intent HomeActivity</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">TextView registerText</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">TextView forgotText</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">CheckBox showPasswordChkBox</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">String code = </span><span class="s2">&quot;0&quot;</span><span class="s0">;</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_login)</span><span class="s0">;</span>
+
+        <span class="s3">// Initializing view</span>
+        <span class="s1">userEmail = findViewById(R.id.login_email_edit_text)</span><span class="s0">;</span>
+        <span class="s1">userPassword = findViewById(R.id.login_password_edit_text)</span><span class="s0">;</span>
+        <span class="s1">loginBtn = findViewById(R.id.login_btn)</span><span class="s0">;</span>
+        <span class="s1">loadingBar = findViewById(R.id.login_progressBar)</span><span class="s0">;</span>
+        <span class="s1">registerText = findViewById(R.id.register_here_text)</span><span class="s0">;</span>
+        <span class="s1">forgotText = findViewById(R.id.reset_password_text_login)</span><span class="s0">;</span>
+        <span class="s1">showPasswordChkBox = findViewById(R.id.show_password)</span><span class="s0">;</span>
+
+        <span class="s1">auth = FirebaseAuth.getInstance()</span><span class="s0">;</span>
+        <span class="s1">HomeActivity = </span><span class="s0">new </span><span class="s1">Intent(</span><span class="s0">this, </span><span class="s1">android.example.blogtalk.Activities.Home.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">loadingBar.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+
+        <span class="s1">showPasswordChkBox.setOnCheckedChangeListener(</span><span class="s0">new </span><span class="s1">CompoundButton.OnCheckedChangeListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onCheckedChanged(CompoundButton buttonView</span><span class="s0">, boolean </span><span class="s1">isChecked) {</span>
+                <span class="s0">if</span><span class="s1">(isChecked){</span>
+                    <span class="s1">userPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance())</span><span class="s0">;</span>
+                <span class="s1">}</span><span class="s0">else</span><span class="s1">{</span>
+                    <span class="s1">userPassword.setTransformationMethod(PasswordTransformationMethod.getInstance())</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">registerText.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+
+                <span class="s1">Intent registerActivity = </span><span class="s0">new </span><span class="s1">Intent(LoginActivity.</span><span class="s0">this,</span><span class="s1">RegisterActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">startActivity(registerActivity)</span><span class="s0">;</span>
+                <span class="s1">finish()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">loginBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">loadingBar.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                <span class="s1">loginBtn.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+
+                <span class="s0">final </span><span class="s1">String mail = userEmail.getText().toString()</span><span class="s0">;</span>
+                <span class="s0">final </span><span class="s1">String password = userPassword.getText().toString()</span><span class="s0">;</span>
+
+                <span class="s0">if</span><span class="s1">(mail.isEmpty() || password.isEmpty()){</span>
+                    <span class="s1">showMessage(</span><span class="s2">&quot;Please verify fields&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">loginBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                    <span class="s1">loadingBar.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else</span><span class="s1">{</span>
+                    <span class="s1">signIn(mail</span><span class="s0">,</span><span class="s1">password)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">forgotText.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">ResetMethod()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">ResetMethod(){</span>
+        <span class="s1">getSupportFragmentManager().beginTransaction().add(android.R.id.content</span><span class="s0">,new </span><span class="s1">ResetPasswordFragment()).commit()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">signIn(</span><span class="s0">final </span><span class="s1">String mail</span><span class="s0">,final </span><span class="s1">String password) {</span>
+        <span class="s1">auth.signInWithEmailAndPassword(mail</span><span class="s0">,</span><span class="s1">password).addOnCompleteListener(</span><span class="s0">new </span><span class="s1">OnCompleteListener&lt;AuthResult&gt;() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onComplete(@NonNull Task&lt;AuthResult&gt; task) {</span>
+                <span class="s0">if</span><span class="s1">(task.isSuccessful()){</span>
+
+                    <span class="s1">loadingBar.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                    <span class="s1">loginBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                    <span class="s1">updateUI()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else</span><span class="s1">{</span>
+                    <span class="s1">showMessage(task.getException().getMessage())</span><span class="s0">;</span>
+                    <span class="s1">loginBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                    <span class="s1">loadingBar.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">updateUI() {</span>
+        <span class="s1">startActivity(HomeActivity)</span><span class="s0">;</span>
+        <span class="s1">finish()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">showMessage(String message) {</span>
+        <span class="s1">Toast.makeText(</span><span class="s0">this, </span><span class="s1">message</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onStart() {</span>
+        <span class="s0">super</span><span class="s1">.onStart()</span><span class="s0">;</span>
+
+        <span class="s1">FirebaseUser user = auth.getCurrentUser()</span><span class="s0">;</span>
+        <span class="s0">if</span><span class="s1">(user != </span><span class="s0">null</span><span class="s1">){</span>
+            <span class="s3">// user is already logged in</span>
+            <span class="s1">updateUI()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

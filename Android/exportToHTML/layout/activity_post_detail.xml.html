@@ -1,0 +1,159 @@
+<html>
+<head>
+<title>activity_post_detail.xml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #e8bf6a;}
+.s1 { color: #bababa;}
+.s2 { color: #6a8759;}
+.s3 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+activity_post_detail.xml</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?</span><span class="s1">xml version</span><span class="s2">=&quot;1.0&quot; </span><span class="s1">encoding</span><span class="s2">=&quot;utf-8&quot;</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;androidx.core.widget.NestedScrollView </span><span class="s1">xmlns:android</span><span class="s2">=&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="s1">xmlns:app</span><span class="s2">=&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+    <span class="s1">xmlns:tools</span><span class="s2">=&quot;http://schemas.android.com/tools&quot;</span>
+    <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+    <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+    <span class="s1">xmlns:ads</span><span class="s2">=&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+    <span class="s1">tools:context</span><span class="s2">=&quot;.Activities.PostDetailActivity&quot;</span>
+    <span class="s1">android:background</span><span class="s2">=&quot;#ffffff&quot;</span><span class="s0">&gt;</span>
+
+    <span class="s0">&lt;RelativeLayout</span>
+        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span><span class="s0">&gt;</span>
+
+        <span class="s0">&lt;ImageView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/post_detail_image&quot;</span>
+            <span class="s1">android:scaleType</span><span class="s2">=&quot;centerCrop&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;350dp&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;0dp&quot;</span>
+            <span class="s1">android:src</span><span class="s2">=&quot;@drawable/ic_launcher_background&quot;</span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;TextView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/post_title_detail&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/post_detail_image&quot;</span>
+            <span class="s1">android:layout_marginLeft</span><span class="s2">=&quot;16dp&quot;</span>
+            <span class="s1">android:layout_marginRight</span><span class="s2">=&quot;16dp&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/nunito&quot;</span>
+            <span class="s1">android:lineSpacingExtra</span><span class="s2">=&quot;4dp&quot;</span>
+            <span class="s1">android:paddingLeft</span><span class="s2">=&quot;20dp&quot;</span>
+            <span class="s1">android:paddingTop</span><span class="s2">=&quot;10dp&quot;</span>
+            <span class="s1">android:paddingRight</span><span class="s2">=&quot;20dp&quot;</span>
+            <span class="s1">android:paddingBottom</span><span class="s2">=&quot;10dp&quot;</span>
+            <span class="s1">android:text</span><span class="s2">=&quot;Title&quot;</span>
+            <span class="s1">android:textColor</span><span class="s2">=&quot;#000000&quot;</span>
+            <span class="s1">android:textSize</span><span class="s2">=&quot;22sp&quot;</span>
+            <span class="s1">android:textStyle</span><span class="s2">=&quot;bold&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;View</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/view1&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;#2e2e2e&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;1dp&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/post_title_detail&quot;</span>
+            <span class="s1">android:layout_marginLeft</span><span class="s2">=&quot;16dp&quot;</span>
+            <span class="s1">android:layout_marginRight</span><span class="s2">=&quot;16dp&quot;</span>
+            <span class="s1">android:layout_marginStart</span><span class="s2">=&quot;16dp&quot;</span>
+            <span class="s1">android:layout_marginEnd</span><span class="s2">=&quot;16dp&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;8dp&quot;</span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;TextView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/post_date_detail&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;30dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;35dp&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/view1&quot;</span>
+            <span class="s1">android:layout_marginLeft</span><span class="s2">=&quot;16dp&quot;</span>
+            <span class="s1">android:layout_marginRight</span><span class="s2">=&quot;16dp&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/nunito&quot;</span>
+            <span class="s1">android:gravity</span><span class="s2">=&quot;center&quot;</span>
+            <span class="s1">android:text</span><span class="s2">=&quot;By&quot;</span>
+            <span class="s1">android:textSize</span><span class="s2">=&quot;18dp&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;de.hdodenhof.circleimageview.CircleImageView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/post_user_image_detail&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;30dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;35dp&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;3dp&quot;</span>
+            <span class="s1">android:layout_toRightOf</span><span class="s2">=&quot;@+id/post_date_detail&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/view1&quot;</span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;TextView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/post_description_detail&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/post_date_detail&quot;</span>
+            <span class="s1">android:layout_marginLeft</span><span class="s2">=&quot;16dp&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;10dp&quot;</span>
+            <span class="s1">android:layout_marginRight</span><span class="s2">=&quot;16dp&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/nunito&quot;</span>
+            <span class="s1">android:lineSpacingExtra</span><span class="s2">=&quot;8dp&quot;</span>
+            <span class="s1">android:text</span><span class="s2">=&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;</span>
+            <span class="s1">android:textColor</span><span class="s2">=&quot;#373737&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;com.google.android.gms.ads.AdView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/ad_view&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/post_description_detail&quot;</span>
+            <span class="s1">ads:adSize</span><span class="s2">=&quot;BANNER&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;20dp&quot;</span>
+            <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">ads:adUnitId</span><span class="s2">=&quot;@string/banner_ad_unit_id&quot;</span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;de.hdodenhof.circleimageview.CircleImageView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/post_comment_image&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;36dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;36dp&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/ad_view&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;28dp&quot;</span>
+            <span class="s1">android:layout_marginLeft</span><span class="s2">=&quot;28dp&quot;</span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;EditText</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/post_comment_edit_text&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;200dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/ad_view&quot;</span>
+            <span class="s1">android:layout_marginLeft</span><span class="s2">=&quot;10dp&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;23dp&quot;</span>
+            <span class="s1">android:layout_toRightOf</span><span class="s2">=&quot;@+id/post_comment_image&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/editext_button_style_rounded&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/nunito&quot;</span>
+            <span class="s1">android:hint</span><span class="s2">=&quot;write comment&quot;</span>
+            <span class="s1">android:inputType</span><span class="s2">=&quot;textMultiLine&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;Button</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/post_submit_comment_btn&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;55dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/ad_view&quot;</span>
+            <span class="s1">android:layout_marginLeft</span><span class="s2">=&quot;20dp&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;22dp&quot;</span>
+            <span class="s1">android:layout_toRightOf</span><span class="s2">=&quot;@+id/post_comment_edit_text&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/editext_button_style_rounded&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/nunito&quot;</span>
+            <span class="s1">android:text</span><span class="s2">=&quot;Add&quot;</span>
+            <span class="s1">android:textAllCaps</span><span class="s2">=&quot;false&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;androidx.recyclerview.widget.RecyclerView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/rv_comment&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;20dp&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/post_comment_edit_text&quot;</span><span class="s0">/&gt;</span>
+
+
+
+    <span class="s0">&lt;/RelativeLayout&gt;</span>
+<span class="s0">&lt;/androidx.core.widget.NestedScrollView&gt;</span></pre>
+</body>
+</html>

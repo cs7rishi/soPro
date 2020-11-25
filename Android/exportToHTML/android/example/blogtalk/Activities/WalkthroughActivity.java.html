@@ -1,0 +1,132 @@
+<html>
+<head>
+<title>WalkthroughActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #6a8759;}
+.s4 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+WalkthroughActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">android.example.blogtalk.Activities</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.viewpager.widget.ViewPager</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Adapter.SliderAdapter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.text.Html</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.transition.Slide</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.LinearLayout</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">WalkthroughActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+    <span class="s0">private </span><span class="s1">ViewPager mSlideViewpager</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">LinearLayout mDotLayout</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Button mPrev</span><span class="s0">, </span><span class="s1">mNext</span><span class="s0">, </span><span class="s1">finish</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">SliderAdapter sliderAdapter</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">TextView[] dots</span><span class="s0">;</span>
+    <span class="s0">private int </span><span class="s1">mCurrentPage</span><span class="s0">;</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_walkthrough)</span><span class="s0">;</span>
+
+        <span class="s1">mSlideViewpager = findViewById(R.id.mainVP)</span><span class="s0">;</span>
+        <span class="s1">mDotLayout = findViewById(R.id.dotsLL)</span><span class="s0">;</span>
+        <span class="s1">mNext = findViewById(R.id.nextBtn)</span><span class="s0">;</span>
+        <span class="s1">mPrev = findViewById(R.id.previousBtn)</span><span class="s0">;</span>
+
+        <span class="s1">sliderAdapter = </span><span class="s0">new </span><span class="s1">SliderAdapter(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">mSlideViewpager.setAdapter(sliderAdapter)</span><span class="s0">;</span>
+        <span class="s1">addDotsIndicator(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">mSlideViewpager.addOnPageChangeListener(viewListener)</span><span class="s0">;</span>
+        <span class="s1">mSlideViewpager.addOnPageChangeListener(viewListener)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">public void </span><span class="s1">addDotsIndicator(</span><span class="s0">int </span><span class="s1">position){</span>
+
+        <span class="s1">dots = </span><span class="s0">new </span><span class="s1">TextView[</span><span class="s2">3</span><span class="s1">]</span><span class="s0">;</span>
+        <span class="s1">mDotLayout.removeAllViews()</span><span class="s0">;</span>
+
+        <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i=</span><span class="s2">0</span><span class="s0">;</span><span class="s1">i&lt;dots.length</span><span class="s0">;</span><span class="s1">i++){</span>
+            <span class="s1">dots[i] = </span><span class="s0">new </span><span class="s1">TextView(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">dots[i].setText(Html.fromHtml(</span><span class="s3">&quot;&amp;#8226;&quot;</span><span class="s1">))</span><span class="s0">;</span>
+            <span class="s1">dots[i].setTextColor(getResources().getColor(R.color.transparent))</span><span class="s0">;</span>
+            <span class="s1">mDotLayout.addView(dots[i])</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">if</span><span class="s1">(dots.length &gt; </span><span class="s2">0</span><span class="s1">){</span>
+            <span class="s1">dots[position].setTextColor(getResources().getColor(R.color.colorWhite))</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">ViewPager.OnPageChangeListener viewListener = </span><span class="s0">new </span><span class="s1">ViewPager.OnPageChangeListener() {</span>
+        <span class="s1">@Override</span>
+        <span class="s0">public void </span><span class="s1">onPageScrolled(</span><span class="s0">int </span><span class="s1">position</span><span class="s0">, float </span><span class="s1">positionOffset</span><span class="s0">, int </span><span class="s1">positionOffsetPixels) {</span>
+
+        <span class="s1">}</span>
+
+        <span class="s1">@Override</span>
+        <span class="s0">public void </span><span class="s1">onPageSelected(</span><span class="s0">int </span><span class="s1">position) {</span>
+            <span class="s1">addDotsIndicator(position)</span><span class="s0">;</span>
+
+            <span class="s1">mCurrentPage = position</span><span class="s0">;</span>
+            <span class="s0">if </span><span class="s1">(position == </span><span class="s2">0</span><span class="s1">) {</span>
+                <span class="s1">mNext.setEnabled(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">mPrev.setEnabled(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">mPrev.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                <span class="s1">mNext.setText(</span><span class="s3">&quot;Next&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">mPrev.setText(</span><span class="s3">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+
+            <span class="s0">else if </span><span class="s1">(position == dots.length - </span><span class="s2">1</span><span class="s1">) {</span>
+                <span class="s1">mPrev.setEnabled(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">mPrev.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                <span class="s1">mNext.setText(</span><span class="s3">&quot;Next&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">mPrev.setText(</span><span class="s3">&quot;Back&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+
+            <span class="s0">else </span><span class="s1">{</span>
+                <span class="s1">mNext.setEnabled(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">mPrev.setEnabled(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">mPrev.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                <span class="s1">mNext.setText(</span><span class="s3">&quot;Next&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">mPrev.setText(</span><span class="s3">&quot;Back&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+
+        <span class="s1">@Override</span>
+        <span class="s0">public void </span><span class="s1">onPageScrollStateChanged(</span><span class="s0">int </span><span class="s1">state) {</span>
+
+        <span class="s1">}</span>
+    <span class="s1">}</span><span class="s0">;</span>
+    <span class="s0">public void </span><span class="s1">prev(View view) {</span>
+        <span class="s1">mSlideViewpager.setCurrentItem(mCurrentPage - </span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">next(View view) {</span>
+        <span class="s1">mSlideViewpager.setCurrentItem(mCurrentPage + </span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s4">/*public void FinishAct(View view){ 
+        Intent homeIntent = new Intent(WalkthroughActivity.this,Home.class); 
+        startActivity(homeIntent); 
+        finish(); 
+    }*/</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<html>
+<head>
+<title>DeleteAccountActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+DeleteAccountActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">android.example.blogtalk.Activities</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AlertDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.DialogInterface</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ProgressBar</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnCompleteListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnFailureListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.Task</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.AuthCredential</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.EmailAuthProvider</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseUser</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">DeleteAccountActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+    <span class="s0">private </span><span class="s1">EditText userEmail</span><span class="s0">,</span><span class="s1">userPassword</span><span class="s0">,</span><span class="s1">userConfirmPassword</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Button deleteBtn</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">ProgressBar loadingBar</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">String password</span><span class="s0">,</span><span class="s1">email</span><span class="s0">,</span><span class="s1">confirmPassword</span><span class="s0">;</span>
+
+    <span class="s1">FirebaseAuth auth</span><span class="s0">;</span>
+    <span class="s1">FirebaseUser user</span><span class="s0">;</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_delete_account)</span><span class="s0">;</span>
+
+        <span class="s1">userPassword = findViewById(R.id.delete_password_edit_text)</span><span class="s0">;</span>
+        <span class="s1">userEmail = findViewById(R.id.delete_email_edit_text)</span><span class="s0">;</span>
+        <span class="s1">deleteBtn = findViewById(R.id.delete_account_btn)</span><span class="s0">;</span>
+        <span class="s1">loadingBar = findViewById(R.id.delete_progressBar)</span><span class="s0">;</span>
+        <span class="s1">userConfirmPassword = findViewById(R.id.delete_confirm_password_edit_text)</span><span class="s0">;</span>
+
+        <span class="s1">auth = FirebaseAuth.getInstance()</span><span class="s0">;</span>
+        <span class="s1">user = auth.getCurrentUser()</span><span class="s0">;</span>
+
+        <span class="s1">deleteBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+
+                <span class="s1">confirmPassword = userConfirmPassword.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">password = userPassword.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">email = userEmail.getText().toString()</span><span class="s0">;</span>
+
+                <span class="s0">if</span><span class="s1">(email.equals(</span><span class="s2">&quot;&quot;</span><span class="s1">) || password.equals(</span><span class="s2">&quot;&quot;</span><span class="s1">) || confirmPassword.equals(</span><span class="s2">&quot;&quot;</span><span class="s1">)){</span>
+                    <span class="s1">showMessage(</span><span class="s2">&quot;Please fill each field&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else if</span><span class="s1">(!email.equals(user.getEmail()) || !password.equals(confirmPassword)){</span>
+                    <span class="s1">showMessage(</span><span class="s2">&quot;Invalid Credentials&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else</span><span class="s1">{</span>
+                    <span class="s1">loadingBar.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                    <span class="s1">deleteBtn.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                    <span class="s1">AlertDialog.Builder builder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(DeleteAccountActivity.</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">builder.setTitle(</span><span class="s2">&quot;Are you sure ?&quot;</span><span class="s1">).</span>
+                            <span class="s1">setMessage(</span><span class="s2">&quot;Do you want to delete account ?&quot;</span><span class="s1">)</span>
+                            <span class="s1">.setIcon(R.drawable.ic_info)</span>
+                            <span class="s1">.setPositiveButton(</span><span class="s2">&quot;Yes&quot;</span><span class="s0">, new </span><span class="s1">DialogInterface.OnClickListener() {</span>
+                                <span class="s1">@Override</span>
+                                <span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog</span><span class="s0">, int </span><span class="s1">which) {</span>
+                                    <span class="s1">deleteAccount()</span><span class="s0">;</span>
+                                <span class="s1">}</span>
+                            <span class="s1">})</span>
+                    <span class="s1">.setNegativeButton(</span><span class="s2">&quot;No&quot;</span><span class="s0">, new </span><span class="s1">DialogInterface.OnClickListener() {</span>
+                        <span class="s1">@Override</span>
+                        <span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog</span><span class="s0">, int </span><span class="s1">which) {</span>
+                            <span class="s1">loadingBar.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                            <span class="s1">deleteBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">})</span><span class="s0">;</span>
+
+                    <span class="s1">AlertDialog alert = builder.create()</span><span class="s0">;</span>
+                    <span class="s1">alert.show()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">deleteAccount() {</span>
+
+        <span class="s0">if</span><span class="s1">(user!=</span><span class="s0">null</span><span class="s1">){</span>
+            <span class="s1">AuthCredential credential = EmailAuthProvider</span>
+                    <span class="s1">.getCredential(email</span><span class="s0">, </span><span class="s1">password)</span><span class="s0">;</span>
+
+            <span class="s3">// Prompt the user to re-provide their sign-in credentials</span>
+            <span class="s1">user.reauthenticate(credential)</span>
+                    <span class="s1">.addOnCompleteListener(</span><span class="s0">new </span><span class="s1">OnCompleteListener&lt;Void&gt;() {</span>
+                        <span class="s1">@Override</span>
+                        <span class="s0">public void </span><span class="s1">onComplete(@NonNull Task&lt;Void&gt; task) {</span>
+                            <span class="s1">user.delete()</span>
+                                    <span class="s1">.addOnCompleteListener(</span><span class="s0">new </span><span class="s1">OnCompleteListener&lt;Void&gt;() {</span>
+                                        <span class="s1">@Override</span>
+                                        <span class="s0">public void </span><span class="s1">onComplete(@NonNull Task&lt;Void&gt; task) {</span>
+                                            <span class="s0">if </span><span class="s1">(task.isSuccessful()) {</span>
+                                                <span class="s1">Intent i = </span><span class="s0">new </span><span class="s1">Intent(DeleteAccountActivity.</span><span class="s0">this,</span><span class="s1">LoginActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                                                <span class="s1">startActivity(i)</span><span class="s0">;</span>
+                                                <span class="s1">finish()</span><span class="s0">;</span>
+                                            <span class="s1">}</span>
+                                            <span class="s0">else</span><span class="s1">{</span>
+                                                <span class="s1">showMessage(</span><span class="s2">&quot;Error occurred&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                                                <span class="s1">loadingBar.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                                                <span class="s1">deleteBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                                            <span class="s1">}</span>
+                                        <span class="s1">}</span>
+                                    <span class="s1">})</span><span class="s0">;</span>
+
+                        <span class="s1">}</span>
+                    <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">showMessage(String s) {</span>
+        <span class="s1">Toast.makeText(</span><span class="s0">this, </span><span class="s1">s</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

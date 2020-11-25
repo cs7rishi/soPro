@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>ChatAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ChatAdapter.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">android.example.blogtalk.Adapter</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Models.Chat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Models.Comment</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.text.format.DateFormat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.bumptech.glide.Glide</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.Calendar</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Locale</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">de.hdodenhof.circleimageview.CircleImageView</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">ChatAdapter </span><span class="s0">extends </span><span class="s1">RecyclerView.Adapter&lt;ChatAdapter.ChatViewHolder&gt; {</span>
+
+    <span class="s0">private </span><span class="s1">Context mContext</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">List&lt;Chat&gt; mData</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">ChatAdapter(Context mContext</span><span class="s0">, </span><span class="s1">List&lt;Chat&gt; mData) {</span>
+        <span class="s0">this</span><span class="s1">.mContext = mContext</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.mData = mData</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@NonNull</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent</span><span class="s0">, int </span><span class="s1">viewType) {</span>
+        <span class="s1">View row = LayoutInflater.from(mContext).inflate(R.layout.row_chatmessage</span><span class="s0">,</span><span class="s1">parent</span><span class="s0">,false</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">return new </span><span class="s1">ChatViewHolder(row)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onBindViewHolder(@NonNull ChatViewHolder holder</span><span class="s0">, int </span><span class="s1">position) {</span>
+        <span class="s1">Glide.with(mContext).load(mData.get(position).getUimg()).into(holder.image_user)</span><span class="s0">;</span>
+        <span class="s1">holder.tv_content.setText(mData.get(position).getMessage())</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">getItemCount() {</span>
+        <span class="s0">return </span><span class="s1">mData.size()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public class </span><span class="s1">ChatViewHolder </span><span class="s0">extends </span><span class="s1">RecyclerView.ViewHolder{</span>
+
+        <span class="s1">CircleImageView image_user</span><span class="s0">;</span>
+        <span class="s1">TextView tv_name</span><span class="s0">,</span><span class="s1">tv_content</span><span class="s0">,</span><span class="s1">tv_date</span><span class="s0">;</span>
+
+        <span class="s0">public </span><span class="s1">ChatViewHolder(@NonNull View itemView) {</span>
+            <span class="s0">super</span><span class="s1">(itemView)</span><span class="s0">;</span>
+            <span class="s1">image_user = itemView.findViewById(R.id.chat_display_user_image)</span><span class="s0">;</span>
+            <span class="s1">tv_content = itemView.findViewById(R.id.chat_display_message_text)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private </span><span class="s1">String timeStampStringConvert(</span><span class="s0">long </span><span class="s1">time){</span>
+        <span class="s1">Calendar calendar = Calendar.getInstance(Locale.ENGLISH)</span><span class="s0">;</span>
+        <span class="s1">calendar.setTimeInMillis(time)</span><span class="s0">;</span>
+        <span class="s1">String date = DateFormat.format(</span><span class="s2">&quot;hh:mm&quot;</span><span class="s0">,</span><span class="s1">calendar).toString()</span><span class="s0">;</span>
+        <span class="s0">return  </span><span class="s1">date</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

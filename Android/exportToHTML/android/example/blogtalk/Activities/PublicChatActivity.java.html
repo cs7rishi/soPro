@@ -1,0 +1,138 @@
+<html>
+<head>
+<title>PublicChatActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+PublicChatActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">android.example.blogtalk.Activities</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.LinearLayoutManager</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Adapter.ChatAdapter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Adapter.CommentAdapter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Models.Chat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.Models.Comment</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.bumptech.glide.Glide</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnFailureListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnSuccessListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseUser</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">de.hdodenhof.circleimageview.CircleImageView</span><span class="s0">;</span>
+
+<span class="s0">import static </span><span class="s1">android.example.blogtalk.Activities.PostDetailActivity.COMMENT_KEY</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">PublicChatActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+    <span class="s1">CircleImageView chatUserImage</span><span class="s0">;</span>
+    <span class="s1">EditText chatMessage</span><span class="s0">;</span>
+    <span class="s1">Button sendBtn</span><span class="s0">;</span>
+
+    <span class="s1">FirebaseAuth auth</span><span class="s0">;</span>
+    <span class="s1">FirebaseUser user</span><span class="s0">;</span>
+    <span class="s1">FirebaseDatabase firebaseDatabase</span><span class="s0">;</span>
+    <span class="s1">String postKey</span><span class="s0">;</span>
+
+    <span class="s1">RecyclerView RvChat</span><span class="s0">;</span>
+    <span class="s1">ChatAdapter chatAdapter</span><span class="s0">;</span>
+    <span class="s1">List&lt;Chat&gt; listChat</span><span class="s0">;</span>
+    <span class="s0">static </span><span class="s1">String CHAT_KEY = </span><span class="s2">&quot;Chat&quot;</span><span class="s0">;</span>
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_public_chat)</span><span class="s0">;</span>
+
+        <span class="s1">chatUserImage = findViewById(R.id.chat_user_image)</span><span class="s0">;</span>
+        <span class="s1">chatMessage = findViewById(R.id.chat_message_edit_text)</span><span class="s0">;</span>
+        <span class="s1">sendBtn = findViewById(R.id.chat_send_btn)</span><span class="s0">;</span>
+        <span class="s1">RvChat = findViewById(R.id.rv_chat)</span><span class="s0">;</span>
+
+        <span class="s1">auth = FirebaseAuth.getInstance()</span><span class="s0">;</span>
+        <span class="s1">user = auth.getCurrentUser()</span><span class="s0">;</span>
+        <span class="s1">firebaseDatabase = FirebaseDatabase.getInstance()</span><span class="s0">;</span>
+
+        <span class="s1">Glide.with(</span><span class="s0">this</span><span class="s1">).load(user.getPhotoUrl()).into(chatUserImage)</span><span class="s0">;</span>
+
+        <span class="s1">sendBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+
+                <span class="s1">sendBtn.setVisibility(View.INVISIBLE)</span><span class="s0">;</span>
+                <span class="s1">DatabaseReference chatReference = firebaseDatabase.getReference(CHAT_KEY).push()</span><span class="s0">;</span>
+                <span class="s1">String chat_content = chatMessage.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String uid = user.getUid()</span><span class="s0">;</span>
+                <span class="s1">String uimg = user.getPhotoUrl().toString()</span><span class="s0">;</span>
+                <span class="s1">Chat chat = </span><span class="s0">new </span><span class="s1">Chat(uid</span><span class="s0">,</span><span class="s1">chat_content</span><span class="s0">,</span><span class="s1">uimg)</span><span class="s0">;</span>
+                <span class="s1">chatReference.setValue(chat).addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;Void&gt;() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onSuccess(Void aVoid) {</span>
+                        <span class="s1">chatMessage.setText(</span><span class="s2">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                        <span class="s1">sendBtn.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">}).addOnFailureListener(</span><span class="s0">new </span><span class="s1">OnFailureListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onFailure(@NonNull Exception e) {</span>
+                        <span class="s1">Log.i(</span><span class="s2">&quot;error&quot;</span><span class="s0">,</span><span class="s1">e.getMessage())</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">iniChat()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">iniChat() {</span>
+        <span class="s1">RvChat.setLayoutManager(</span><span class="s0">new </span><span class="s1">LinearLayoutManager(</span><span class="s0">this</span><span class="s1">))</span><span class="s0">;</span>
+
+        <span class="s1">DatabaseReference chatRef = firebaseDatabase.getReference(CHAT_KEY)</span><span class="s0">;</span>
+        <span class="s1">chatRef.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                <span class="s1">listChat = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+                <span class="s0">for</span><span class="s1">(DataSnapshot snapshot1:snapshot.getChildren()){</span>
+                    <span class="s1">Chat chat = snapshot1.getValue(Chat.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">listChat.add(chat)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s1">chatAdapter = </span><span class="s0">new </span><span class="s1">ChatAdapter(getApplicationContext()</span><span class="s0">,</span><span class="s1">listChat)</span><span class="s0">;</span>
+                <span class="s1">RvChat.setAdapter(chatAdapter)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

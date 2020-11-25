@@ -1,0 +1,245 @@
+<html>
+<head>
+<title>AndroidManifest.xml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #e8bf6a;}
+.s1 { color: #bababa;}
+.s2 { color: #6a8759;}
+.s3 { color: #a9b7c6;}
+.s4 { color: #808080;}
+.s5 { color: #6d9cbe;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+AndroidManifest.xml</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?</span><span class="s1">xml version</span><span class="s2">=&quot;1.0&quot; </span><span class="s1">encoding</span><span class="s2">=&quot;utf-8&quot;</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;manifest </span><span class="s1">xmlns:android</span><span class="s2">=&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="s1">package</span><span class="s2">=&quot;android.example.blogtalk&quot;</span>
+    <span class="s1">android:versionCode</span><span class="s2">=&quot;1&quot;</span>
+    <span class="s1">android:versionName</span><span class="s2">=&quot;1.0&quot; </span><span class="s0">&gt;</span>
+
+    <span class="s0">&lt;uses-sdk</span>
+        <span class="s1">android:minSdkVersion</span><span class="s2">=&quot;16&quot;</span>
+        <span class="s1">android:targetSdkVersion</span><span class="s2">=&quot;29&quot; </span><span class="s0">/&gt;</span>
+
+    <span class="s0">&lt;uses-permission </span><span class="s1">android:name</span><span class="s2">=&quot;android.permission.READ_EXTERNAL_STORAGE&quot; </span><span class="s0">/&gt;</span>
+    <span class="s0">&lt;uses-permission </span><span class="s1">android:name</span><span class="s2">=&quot;android.permission.INTERNET&quot; </span><span class="s0">/&gt;</span>
+    <span class="s0">&lt;uses-permission </span><span class="s1">android:name</span><span class="s2">=&quot;android.permission.ACCESS_NETWORK_STATE&quot; </span><span class="s0">/&gt;</span>
+    <span class="s0">&lt;uses-permission </span><span class="s1">android:name</span><span class="s2">=&quot;android.permission.WAKE_LOCK&quot; </span><span class="s0">/&gt; </span><span class="s4">&lt;!-- Required by older versions of Google Play services to create IID tokens --&gt;</span>
+    <span class="s0">&lt;uses-permission </span><span class="s1">android:name</span><span class="s2">=&quot;com.google.android.c2dm.permission.RECEIVE&quot; </span><span class="s0">/&gt;</span>
+    <span class="s0">&lt;uses-permission </span><span class="s1">android:name</span><span class="s2">=&quot;com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE&quot; </span><span class="s0">/&gt;</span>
+
+    <span class="s0">&lt;application</span>
+        <span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Services.FirebaseData&quot;</span>
+        <span class="s1">android:allowBackup</span><span class="s2">=&quot;true&quot;</span>
+        <span class="s1">android:appComponentFactory</span><span class="s2">=&quot;androidx.core.app.CoreComponentFactory&quot;</span>
+        <span class="s1">android:debuggable</span><span class="s2">=&quot;true&quot;</span>
+        <span class="s1">android:icon</span><span class="s2">=&quot;@drawable/iconsopro&quot;</span>
+        <span class="s1">android:label</span><span class="s2">=&quot;@string/app_name&quot;</span>
+        <span class="s1">android:roundIcon</span><span class="s2">=&quot;@drawable/iconsopro&quot;</span>
+        <span class="s1">android:supportsRtl</span><span class="s2">=&quot;true&quot;</span>
+        <span class="s1">android:testOnly</span><span class="s2">=&quot;true&quot;</span>
+        <span class="s1">android:theme</span><span class="s2">=&quot;@style/AppTheme&quot; </span><span class="s0">&gt;</span>
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Activities.SplashActivity&quot;</span>
+            <span class="s1">android:theme</span><span class="s2">=&quot;@style/AppTheme.NoActionBar&quot; </span><span class="s0">&gt;</span>
+            <span class="s0">&lt;intent-filter&gt;</span>
+                <span class="s0">&lt;action </span><span class="s1">android:name</span><span class="s2">=&quot;android.intent.action.MAIN&quot; </span><span class="s0">/&gt;</span>
+
+                <span class="s0">&lt;category </span><span class="s1">android:name</span><span class="s2">=&quot;android.intent.category.LAUNCHER&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;/intent-filter&gt;</span>
+        <span class="s0">&lt;/activity&gt;</span>
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Activities.WalkthroughActivity&quot;</span>
+            <span class="s1">android:theme</span><span class="s2">=&quot;@style/AppTheme.NoActionBar&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Activities.TermsActivity&quot;</span>
+            <span class="s1">android:label</span><span class="s2">=&quot;Terms </span><span class="s5">&amp;amp; </span><span class="s2">Conditions &quot;</span>
+            <span class="s1">android:parentActivityName</span><span class="s2">=&quot;android.example.blogtalk.Activities.RegisterActivity&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Activities.PublicChatActivity&quot;</span>
+            <span class="s1">android:label</span><span class="s2">=&quot;Chat&quot;</span>
+            <span class="s1">android:parentActivityName</span><span class="s2">=&quot;android.example.blogtalk.Activities.Home&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Activities.DeleteAccountActivity&quot;</span>
+            <span class="s1">android:label</span><span class="s2">=&quot;Delete Account&quot;</span>
+            <span class="s1">android:parentActivityName</span><span class="s2">=&quot;android.example.blogtalk.Activities.Home&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Activities.SettingsActivity&quot;</span>
+            <span class="s1">android:label</span><span class="s2">=&quot;Settings&quot;</span>
+            <span class="s1">android:parentActivityName</span><span class="s2">=&quot;android.example.blogtalk.Activities.Home&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Activities.PostDetailActivity&quot;</span>
+            <span class="s1">android:parentActivityName</span><span class="s2">=&quot;android.example.blogtalk.Activities.Home&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Activities.Home&quot;</span>
+            <span class="s1">android:label</span><span class="s2">=&quot;@string/title_activity_home&quot;</span>
+            <span class="s1">android:theme</span><span class="s2">=&quot;@style/AppTheme.NoActionBar&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Activities.LoginActivity&quot;</span>
+            <span class="s1">android:theme</span><span class="s2">=&quot;@style/AppTheme.NoActionBar&quot; </span><span class="s0">&gt;</span>
+        <span class="s0">&lt;/activity&gt;</span>
+        <span class="s0">&lt;activity </span><span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Activities.HomeActivity&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;android.example.blogtalk.Activities.RegisterActivity&quot;</span>
+            <span class="s1">android:theme</span><span class="s2">=&quot;@style/AppTheme.NoActionBar&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;meta-data</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;preloaded_fonts&quot;</span>
+            <span class="s1">android:resource</span><span class="s2">=&quot;@array/preloaded_fonts&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;meta-data</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.gms.ads.APPLICATION_ID&quot;</span>
+            <span class="s1">android:value</span><span class="s2">=&quot;ca-app-pub-8905933817304333~6459805873&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;service</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components.ComponentDiscoveryService&quot;</span>
+            <span class="s1">android:directBootAware</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components:com.google.firebase.inappmessaging.display.FirebaseInAppMessagingDisplayRegistrar&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;com.google.firebase.components.ComponentRegistrar&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;com.google.firebase.components.ComponentRegistrar&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components:com.google.firebase.storage.StorageRegistrar&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;com.google.firebase.components.ComponentRegistrar&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;com.google.firebase.components.ComponentRegistrar&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;com.google.firebase.components.ComponentRegistrar&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;com.google.firebase.components.ComponentRegistrar&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components:com.google.firebase.iid.Registrar&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;com.google.firebase.components.ComponentRegistrar&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components:com.google.firebase.inappmessaging.FirebaseInAppMessagingRegistrar&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;com.google.firebase.components.ComponentRegistrar&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;com.google.firebase.components.ComponentRegistrar&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;com.google.firebase.components.ComponentRegistrar&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.components:com.google.firebase.abt.component.AbtRegistrar&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;com.google.firebase.components.ComponentRegistrar&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/service&gt;</span>
+
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.auth.internal.FederatedSignInActivity&quot;</span>
+            <span class="s1">android:excludeFromRecents</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:launchMode</span><span class="s2">=&quot;singleTask&quot;</span>
+            <span class="s1">android:permission</span><span class="s2">=&quot;com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN&quot;</span>
+            <span class="s1">android:theme</span><span class="s2">=&quot;@android:style/Theme.Translucent.NoTitleBar&quot; </span><span class="s0">/&gt;</span>
+        <span class="s4">&lt;!--</span>
+             <span class="s4">FirebaseMessagingService performs security checks at runtime, 
+             but set to not exported to explicitly avoid allowing another app to call it. 
+        --&gt;</span>
+        <span class="s0">&lt;service</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.messaging.FirebaseMessagingService&quot;</span>
+            <span class="s1">android:directBootAware</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">&gt;</span>
+            <span class="s0">&lt;intent-filter </span><span class="s1">android:priority</span><span class="s2">=&quot;-500&quot; </span><span class="s0">&gt;</span>
+                <span class="s0">&lt;action </span><span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.MESSAGING_EVENT&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;/intent-filter&gt;</span>
+        <span class="s0">&lt;/service&gt;</span>
+
+        <span class="s0">&lt;receiver</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.iid.FirebaseInstanceIdReceiver&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:permission</span><span class="s2">=&quot;com.google.android.c2dm.permission.SEND&quot; </span><span class="s0">&gt;</span>
+            <span class="s0">&lt;intent-filter&gt;</span>
+                <span class="s0">&lt;action </span><span class="s1">android:name</span><span class="s2">=&quot;com.google.android.c2dm.intent.RECEIVE&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;/intent-filter&gt;</span>
+        <span class="s0">&lt;/receiver&gt;</span>
+
+        <span class="s0">&lt;provider</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.firebase.provider.FirebaseInitProvider&quot;</span>
+            <span class="s1">android:authorities</span><span class="s2">=&quot;android.example.blogtalk.firebaseinitprovider&quot;</span>
+            <span class="s1">android:directBootAware</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot;</span>
+            <span class="s1">android:initOrder</span><span class="s2">=&quot;100&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;receiver</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.gms.measurement.AppMeasurementReceiver&quot;</span>
+            <span class="s1">android:enabled</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">&gt;</span>
+        <span class="s0">&lt;/receiver&gt;</span>
+
+        <span class="s0">&lt;service</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.gms.measurement.AppMeasurementService&quot;</span>
+            <span class="s1">android:enabled</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;service</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.gms.measurement.AppMeasurementJobService&quot;</span>
+            <span class="s1">android:enabled</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot;</span>
+            <span class="s1">android:permission</span><span class="s2">=&quot;android.permission.BIND_JOB_SERVICE&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.gms.common.api.GoogleApiActivity&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot;</span>
+            <span class="s1">android:theme</span><span class="s2">=&quot;@android:style/Theme.Translucent.NoTitleBar&quot; </span><span class="s0">/&gt; </span><span class="s4">&lt;!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. --&gt;</span>
+        <span class="s0">&lt;activity</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.gms.ads.AdActivity&quot;</span>
+            <span class="s1">android:configChanges</span><span class="s2">=&quot;keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot;</span>
+            <span class="s1">android:theme</span><span class="s2">=&quot;@android:style/Theme.Translucent&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;provider</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.gms.ads.MobileAdsInitProvider&quot;</span>
+            <span class="s1">android:authorities</span><span class="s2">=&quot;android.example.blogtalk.mobileadsinitprovider&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot;</span>
+            <span class="s1">android:initOrder</span><span class="s2">=&quot;100&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;service</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.gms.ads.AdService&quot;</span>
+            <span class="s1">android:enabled</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;meta-data</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.gms.version&quot;</span>
+            <span class="s1">android:value</span><span class="s2">=&quot;@integer/google_play_services_version&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;provider</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;androidx.lifecycle.ProcessLifecycleOwnerInitializer&quot;</span>
+            <span class="s1">android:authorities</span><span class="s2">=&quot;android.example.blogtalk.lifecycle-process&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot;</span>
+            <span class="s1">android:multiprocess</span><span class="s2">=&quot;true&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;provider</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.squareup.picasso.PicassoProvider&quot;</span>
+            <span class="s1">android:authorities</span><span class="s2">=&quot;android.example.blogtalk.com.squareup.picasso&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;service</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.datatransport.runtime.backends.TransportBackendDiscovery&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">&gt;</span>
+            <span class="s0">&lt;meta-data</span>
+                <span class="s1">android:name</span><span class="s2">=&quot;backend:com.google.android.datatransport.cct.CctBackendFactory&quot;</span>
+                <span class="s1">android:value</span><span class="s2">=&quot;cct&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/service&gt;</span>
+        <span class="s0">&lt;service</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot;</span>
+            <span class="s1">android:permission</span><span class="s2">=&quot;android.permission.BIND_JOB_SERVICE&quot; </span><span class="s0">&gt;</span>
+        <span class="s0">&lt;/service&gt;</span>
+
+        <span class="s0">&lt;receiver</span>
+            <span class="s1">android:name</span><span class="s2">=&quot;com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver&quot;</span>
+            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">/&gt;</span>
+    <span class="s0">&lt;/application&gt;</span>
+
+<span class="s0">&lt;/manifest&gt;</span></pre>
+</body>
+</html>

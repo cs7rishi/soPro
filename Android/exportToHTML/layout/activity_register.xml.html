@@ -1,0 +1,154 @@
+<html>
+<head>
+<title>activity_register.xml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #e8bf6a;}
+.s1 { color: #bababa;}
+.s2 { color: #6a8759;}
+.s3 { color: #a9b7c6;}
+.s4 { color: #6d9cbe;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+activity_register.xml</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?</span><span class="s1">xml version</span><span class="s2">=&quot;1.0&quot; </span><span class="s1">encoding</span><span class="s2">=&quot;utf-8&quot;</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;ScrollView </span><span class="s1">xmlns:android</span><span class="s2">=&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="s1">xmlns:app</span><span class="s2">=&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+    <span class="s1">xmlns:tools</span><span class="s2">=&quot;http://schemas.android.com/tools&quot;</span>
+    <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+    <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+    <span class="s1">tools:context</span><span class="s2">=&quot;.Activities.RegisterActivity&quot;</span>
+    <span class="s1">android:background</span><span class="s2">=&quot;@color/colorPrimaryDark&quot;</span><span class="s0">&gt;</span>
+
+    <span class="s0">&lt;RelativeLayout</span>
+        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span><span class="s0">&gt;</span>
+
+        <span class="s0">&lt;de.hdodenhof.circleimageview.CircleImageView</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;130dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;130dp&quot;</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/register_user_image&quot;</span>
+            <span class="s1">android:src</span><span class="s2">=&quot;@drawable/userphoto&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;50dp&quot;</span>
+            <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;TextView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/choose_image_text&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/register_user_image&quot;</span>
+            <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/nunito&quot;</span>
+            <span class="s1">android:text</span><span class="s2">=&quot;Choose Image&quot;</span>
+            <span class="s1">android:textColor</span><span class="s2">=&quot;#ffffff&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;EditText</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/register_name_edit_text&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;265dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/choose_image_text&quot;</span>
+            <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;50dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/reg_editext_style_2&quot;</span>
+            <span class="s1">android:drawableLeft</span><span class="s2">=&quot;@drawable/ic_account_circle_black_24dp&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/nunito&quot;</span>
+            <span class="s1">android:hint</span><span class="s2">=&quot;Enter name&quot;</span>
+            <span class="s1">android:inputType</span><span class="s2">=&quot;textPersonName&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;EditText</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/register_email_edit_text&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;265dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/register_name_edit_text&quot;</span>
+            <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;0.5dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/reg_editext_style_3&quot;</span>
+            <span class="s1">android:drawableLeft</span><span class="s2">=&quot;@drawable/ic_email_black_24dp&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/nunito&quot;</span>
+            <span class="s1">android:hint</span><span class="s2">=&quot;Enter email&quot;</span>
+            <span class="s1">android:inputType</span><span class="s2">=&quot;textEmailAddress&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;EditText</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/register_password_edit_text&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;265dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/register_email_edit_text&quot;</span>
+            <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;0.5dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/reg_editext_style_3&quot;</span>
+            <span class="s1">android:drawableLeft</span><span class="s2">=&quot;@drawable/ic_lock_outline_black_24dp&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/nunito&quot;</span>
+            <span class="s1">android:hint</span><span class="s2">=&quot;Enter password&quot;</span>
+            <span class="s1">android:inputType</span><span class="s2">=&quot;textPassword&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;EditText</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/register_confirm_password_edit_text&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;265dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/register_password_edit_text&quot;</span>
+            <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;0.5dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/reg_editext_style_4&quot;</span>
+            <span class="s1">android:drawableLeft</span><span class="s2">=&quot;@drawable/ic_lock_outline_black_24dp&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/nunito&quot;</span>
+            <span class="s1">android:hint</span><span class="s2">=&quot;confirm password&quot;</span>
+            <span class="s1">android:inputType</span><span class="s2">=&quot;textPassword&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;com.rey.material.widget.CheckBox</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/terms_and_condition&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">style</span><span class="s2">=&quot;@style/Material.Drawable.CheckBox&quot;</span>
+            <span class="s1">android:text</span><span class="s2">=&quot;Terms </span><span class="s4">&amp;amp; </span><span class="s2">Condition&quot;</span>
+            <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:textColor</span><span class="s2">=&quot;#ffffff&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/register_confirm_password_edit_text&quot;</span>
+            <span class="s1">app:cbd_strokeColor</span><span class="s2">=&quot;#00C853&quot;</span>
+            <span class="s1">android:gravity</span><span class="s2">=&quot;center_vertical&quot;</span>
+            <span class="s1">android:textSize</span><span class="s2">=&quot;14sp&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;20dp&quot;</span>
+            <span class="s1">android:textStyle</span><span class="s2">=&quot;bold&quot;</span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;Button</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/register_btn&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;160dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;50dp&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/terms_and_condition&quot;</span>
+            <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;30dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/login&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/audiowide&quot;</span>
+            <span class="s1">android:text</span><span class="s2">=&quot;Register&quot;</span>
+            <span class="s1">android:textAllCaps</span><span class="s2">=&quot;false&quot;</span>
+            <span class="s1">android:textColor</span><span class="s2">=&quot;#ffffff&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;ProgressBar</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/register_progressBar&quot;</span>
+            <span class="s1">style</span><span class="s2">=&quot;?android:attr/progressBarStyle&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/terms_and_condition&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;30dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/circle_bg&quot;</span>
+            <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;TextView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/login_here_text&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;350dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/register_btn&quot;</span>
+            <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;15dp&quot;</span>
+            <span class="s1">android:fontFamily</span><span class="s2">=&quot;@font/nunito&quot;</span>
+            <span class="s1">android:gravity</span><span class="s2">=&quot;center&quot;</span>
+            <span class="s1">android:text</span><span class="s2">=&quot;Already registered ? Login here&quot;</span>
+            <span class="s1">android:textColor</span><span class="s2">=&quot;#00C853&quot; </span><span class="s0">/&gt;</span>
+    <span class="s0">&lt;/RelativeLayout&gt;</span>
+<span class="s0">&lt;/ScrollView&gt;</span></pre>
+</body>
+</html>

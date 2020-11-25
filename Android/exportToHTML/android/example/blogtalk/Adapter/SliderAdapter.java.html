@@ -1,0 +1,95 @@
+<html>
+<head>
+<title>SliderAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+SliderAdapter.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">android.example.blogtalk.Adapter</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.example.blogtalk.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.RelativeLayout</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.constraintlayout.widget.ConstraintLayout</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.viewpager.widget.PagerAdapter</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">SliderAdapter </span><span class="s0">extends </span><span class="s1">PagerAdapter {</span>
+    <span class="s1">Context context</span><span class="s0">;</span>
+    <span class="s1">LayoutInflater layoutInflater</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">SliderAdapter(Context context){</span>
+        <span class="s0">this</span><span class="s1">.context = context</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s2">// ARRAYS</span>
+    <span class="s0">public int</span><span class="s1">[] slide_images = {</span>
+            <span class="s1">R.drawable.groupone</span><span class="s0">,</span>
+            <span class="s1">R.drawable.grouptwo</span><span class="s0">,</span>
+            <span class="s1">R.drawable.group3</span><span class="s0">,</span>
+    <span class="s1">}</span><span class="s0">;</span>
+    <span class="s0">public </span><span class="s1">String[] slide_headings = {</span>
+            <span class="s3">&quot;EAT&quot;</span><span class="s0">,</span>
+            <span class="s3">&quot;SLEEP&quot;</span><span class="s0">,</span>
+            <span class="s3">&quot;CODE&quot;</span>
+    <span class="s1">}</span><span class="s0">;</span>
+    <span class="s0">public </span><span class="s1">String[] slide_descs = {</span>
+            <span class="s3">&quot;Lorem ipsum dolor sit amet consectetur adipiscing elit, neque purus arcu turpis himenaeos elementum, taciti diam class quisque leo lacus.&quot;</span><span class="s0">,</span>
+            <span class="s3">&quot;Lorem ipsum dolor sit amet consectetur adipiscing elit, neque purus arcu turpis himenaeos elementum, taciti diam class quisque leo lacus.&quot;</span><span class="s0">,</span>
+            <span class="s3">&quot;Lorem ipsum dolor sit amet consectetur adipiscing elit, neque purus arcu turpis himenaeos elementum, taciti diam class quisque leo lacus.&quot;</span>
+    <span class="s1">}</span><span class="s0">;</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">getCount() {</span>
+        <span class="s0">return </span><span class="s1">slide_headings.length</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public boolean </span><span class="s1">isViewFromObject(@NonNull View view</span><span class="s0">, </span><span class="s1">@NonNull Object object) {</span>
+        <span class="s0">return </span><span class="s1">view == object</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@NonNull</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">Object instantiateItem(@NonNull ViewGroup container</span><span class="s0">, int </span><span class="s1">position) {</span>
+        <span class="s1">layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE)</span><span class="s0">;</span>
+        <span class="s1">View view = layoutInflater.inflate(R.layout.slide_layout</span><span class="s0">,</span><span class="s1">container</span><span class="s0">,false</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s2">//initialize views</span>
+        <span class="s1">ImageView slideImage = view.findViewById(R.id.imageIV)</span><span class="s0">;</span>
+        <span class="s1">TextView slideHeading  = view.findViewById(R.id.headingTV)</span><span class="s0">;</span>
+        <span class="s1">TextView slideDesc  = view.findViewById(R.id.descTV)</span><span class="s0">;</span>
+
+        <span class="s1">slideImage.setImageResource(slide_images[position])</span><span class="s0">; </span><span class="s2">// the current position of side will pass to it and it will set image automatically</span>
+        <span class="s1">slideHeading.setText(slide_headings[position])</span><span class="s0">;</span>
+        <span class="s1">slideDesc.setText(slide_descs[position])</span><span class="s0">;</span>
+
+        <span class="s1">container.addView(view)</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">view</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">destroyItem(@NonNull ViewGroup container</span><span class="s0">, int </span><span class="s1">position</span><span class="s0">, </span><span class="s1">@NonNull Object object) {</span>
+
+        <span class="s1">container.removeView((ConstraintLayout)object)</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>
